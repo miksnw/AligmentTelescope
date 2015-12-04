@@ -341,61 +341,26 @@ var
     cross: bool;
     s:string;
 begin
-     cross:=  CheckCross;
-    { if cross = false then // проверка
-     begin
-          x:=x-3;
-     end
-     else
-     begin
-          x:=x+3;
-     end;    }
-
-     CheckCircl(PushKey);
-
-     if CheckRotate_a=false  then
-     begin
-
-     end
-     else
-     begin
-     end;
-
-     MoveTelescope(a,b,c,x,y);     //перемещение
-     GdPaintObject;
-     PaintTelescope;
+     x:=x-3;
+          MoveTelescope(a,b,c,x,y);     //перемещение
+          CheckCircl(PushKey);
+          s:=FloatToStr(b) + ':'+FloatToStr(y);
+          Aligment.Memo1.Lines.Add(s);
+   GdPaintObject;
+   PaintTelescope;
 end;
 procedure TAligment.PushRight(PushKey:Word);
 var
     cross: bool ;
     s:string;
 begin
-     cross:=  CheckCross;
-
-      CheckCircl(PushKey);
-
-     if cross = false then // проверка
-     begin
-          x:=x+3;
-     end
-     else
-     begin
-          a:=a+1;
-          x:=x+3;
-         // cross:=false;
-       //   ShowMessage('Stack');
-     end;
-     if CheckRotate_a=false  then
-     begin
-
-     end
-     else
-     begin
-     end;
-
-     MoveTelescope(a,b,c,x,y);     //перемещение
-     GdPaintObject;
-     PaintTelescope;
+    x:=x+3;
+          MoveTelescope(a,b,c,x,y);     //перемещение
+          CheckCircl(PushKey);
+          s:=FloatToStr(b) + ':'+FloatToStr(y);
+          Aligment.Memo1.Lines.Add(s);
+   GdPaintObject;
+   PaintTelescope;
 
 end;
 procedure TAligment.ListView1KeyDown(Sender: TObject; var Key: Word;

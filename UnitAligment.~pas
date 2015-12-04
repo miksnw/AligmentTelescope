@@ -111,12 +111,6 @@ begin
      if PushKey= 38 //up
      then
      begin
-          if yCenter=baseCenter
-          then
-          begin
-              b:=b-1;
-              y:=y-1;
-          end;
           if yCenter<baseCenter
           then
           begin
@@ -136,7 +130,7 @@ begin
      if PushKey=40     //down
      then
      begin
-          if yCenter+1 > baseCenter
+          if yCenter > baseCenter
           then
           begin
               b:=b-1;
@@ -296,20 +290,21 @@ var
     s:string ;
 begin
     cross:=  CheckCross;
-    if cross = false then // проверка
-    begin
+   // if cross = false then // проверка
+   // begin
           y:=y-3;
+          MoveTelescope(a,b,c,x,y);     //перемещение9
           CheckCircl(PushKey)  ;
           s:=FloatToStr(b) + ':'+FloatToStr(y);
-               Aligment.Memo1.Lines.Add(s);
-    end
+          Aligment.Memo1.Lines.Add(s);
+ {   end
     else
     begin
          cross:=false;
         // y:=y+3;
     end;
+  }
 
-    MoveTelescope(a,b,c,x,y);     //перемещение
      GdPaintObject;
      PaintTelescope;
 end;
@@ -320,21 +315,22 @@ var
     s: string;
 begin
     cross:=  CheckCross;
-     if cross = false then // проверка
-     begin
+    { if cross = false then // проверка
+     begin}
           y:=y+3;
+          MoveTelescope(a,b,c,x,y);     //перемещение
           CheckCircl(PushKey);
-            s:=FloatToStr(b) + ':'+FloatToStr(y);
-               Aligment.Memo1.Lines.Add(s);
-    end
+          s:=FloatToStr(b) + ':'+FloatToStr(y);
+          Aligment.Memo1.Lines.Add(s);
+  {  end
     else
     begin
         cross:=false;
         // y:=y-3;
 
-    end;
+    end; }
 
-       MoveTelescope(a,b,c,x,y);     //перемещение
+
    GdPaintObject;
    PaintTelescope;
 
@@ -346,14 +342,15 @@ var
     s:string;
 begin
      cross:=  CheckCross;
-     if cross = false then // проверка
+    { if cross = false then // проверка
      begin
           x:=x-3;
      end
      else
      begin
           x:=x+3;
-     end;
+     end;    }
+
      CheckCircl(PushKey);
 
      if CheckRotate_a=false  then
