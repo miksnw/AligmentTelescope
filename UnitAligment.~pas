@@ -111,20 +111,18 @@ begin
      if PushKey= 38 //up
      then
      begin
+         if not CheckCross then
+         begin
           if yCenter<baseCenter
           then
           begin
                b:=b-1;
-              // s:=FloatToStr(b) + ':'+FloatToStr(y);
-            //   Aligment.Memo1.Lines.Add(s);
-            //   check:=true;
           end
           else
           begin
                b:=b+1;
-               //s:=FloatToStr(b) + ':' +FloatToStr(y);
-              // Aligment.Memo1.Lines.Add(s);
           end;
+         end;
      end;
 
      if PushKey=40     //down
@@ -170,15 +168,10 @@ begin
           then
           begin
               a:=a-1;
-              s:=FloatToStr(a) + ':' +FloatToStr(x);
-              Aligment.Memo1.Lines.Add(s);
-              check:=true;
           end
           else
           begin
                a:=a+1;
-               s:=FloatToStr(a) + ':' +FloatToStr(x);
-               Aligment.Memo1.Lines.Add(s);
           end;
      end;
      result:=check;
@@ -200,7 +193,10 @@ var
 begin
      checkRotate:=false;
      if a+10<b  then
-     checkRotate:=true;
+     begin
+       c:=c+1;
+       checkRotate:=true;
+     end;
      result := checkRotate;
 end;
 
@@ -290,20 +286,13 @@ var
     s:string ;
 begin
     cross:=  CheckCross;
-   // if cross = false then // проверка
-   // begin
-          y:=y-3;
+          y:=y-3;               //прирашение
           MoveTelescope(a,b,c,x,y);     //перемещение9
-          CheckCircl(PushKey)  ;
+          checkCross;  //проверка пресечени
+          CheckCircl(PushKey)  ;      //проверка
+          CheckRotate_A;
           s:=FloatToStr(b) + ':'+FloatToStr(y);
           Aligment.Memo1.Lines.Add(s);
- {   end
-    else
-    begin
-         cross:=false;
-        // y:=y+3;
-    end;
-  }
 
      GdPaintObject;
      PaintTelescope;
@@ -315,21 +304,13 @@ var
     s: string;
 begin
     cross:=  CheckCross;
-    { if cross = false then // проверка
-     begin}
+
           y:=y+3;
           MoveTelescope(a,b,c,x,y);     //перемещение
           CheckCircl(PushKey);
+          CheckRotate_A;
           s:=FloatToStr(b) + ':'+FloatToStr(y);
           Aligment.Memo1.Lines.Add(s);
-  {  end
-    else
-    begin
-        cross:=false;
-        // y:=y-3;
-
-    end; }
-
 
    GdPaintObject;
    PaintTelescope;
@@ -341,61 +322,28 @@ var
     cross: bool;
     s:string;
 begin
-     cross:=  CheckCross;
-    { if cross = false then // проверка
-     begin
-          x:=x-3;
-     end
-     else
-     begin
-          x:=x+3;
-     end;    }
-
-     CheckCircl(PushKey);
-
-     if CheckRotate_a=false  then
-     begin
-
-     end
-     else
-     begin
-     end;
-
-     MoveTelescope(a,b,c,x,y);     //перемещение
-     GdPaintObject;
-     PaintTelescope;
+     x:=x-3;
+          MoveTelescope(a,b,c,x,y);     //перемещение
+          CheckCircl(PushKey);
+          CheckRotate_B;
+          s:=FloatToStr(b) + ':'+FloatToStr(y);
+          Aligment.Memo1.Lines.Add(s);
+   GdPaintObject;
+   PaintTelescope;
 end;
 procedure TAligment.PushRight(PushKey:Word);
 var
     cross: bool ;
     s:string;
 begin
-     cross:=  CheckCross;
-
-      CheckCircl(PushKey);
-
-     if cross = false then // проверка
-     begin
           x:=x+3;
-     end
-     else
-     begin
-          a:=a+1;
-          x:=x+3;
-         // cross:=false;
-       //   ShowMessage('Stack');
-     end;
-     if CheckRotate_a=false  then
-     begin
-
-     end
-     else
-     begin
-     end;
-
-     MoveTelescope(a,b,c,x,y);     //перемещение
-     GdPaintObject;
-     PaintTelescope;
+          MoveTelescope(a,b,c,x,y);     //перемещение
+          CheckCircl(PushKey);
+          CheckRotate_B;
+          s:=FloatToStr(b) + ':'+FloatToStr(y);
+          Aligment.Memo1.Lines.Add(s);
+          GdPaintObject;
+          PaintTelescope;
 
 end;
 procedure TAligment.ListView1KeyDown(Sender: TObject; var Key: Word;

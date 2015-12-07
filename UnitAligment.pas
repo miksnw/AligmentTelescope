@@ -111,20 +111,18 @@ begin
      if PushKey= 38 //up
      then
      begin
+         if not CheckCross then
+         begin
           if yCenter<baseCenter
           then
           begin
                b:=b-1;
-              // s:=FloatToStr(b) + ':'+FloatToStr(y);
-            //   Aligment.Memo1.Lines.Add(s);
-            //   check:=true;
           end
           else
           begin
                b:=b+1;
-               //s:=FloatToStr(b) + ':' +FloatToStr(y);
-              // Aligment.Memo1.Lines.Add(s);
           end;
+         end;
      end;
 
      if PushKey=40     //down
@@ -170,15 +168,10 @@ begin
           then
           begin
               a:=a-1;
-              s:=FloatToStr(a) + ':' +FloatToStr(x);
-              Aligment.Memo1.Lines.Add(s);
-              check:=true;
           end
           else
           begin
                a:=a+1;
-               s:=FloatToStr(a) + ':' +FloatToStr(x);
-               Aligment.Memo1.Lines.Add(s);
           end;
      end;
      result:=check;
@@ -200,7 +193,10 @@ var
 begin
      checkRotate:=false;
      if a+10<b  then
-     checkRotate:=true;
+     begin
+       c:=c+1;
+       checkRotate:=true;
+     end;
      result := checkRotate;
 end;
 
@@ -211,10 +207,8 @@ var
     RotationAngle:  Double;
     theta        :  Double;    // angle parameter for ellipse
     x            :  Double;
-
     xRotated     :  INTEGER;   // final values are integers
     y            :  Double;
-
     yRotated     :  INTEGER;   // final values are integers
 begin
   StepCount := 100;  // Example 50
@@ -224,8 +218,6 @@ begin
   try
  //   MyImg.Canvas.Pen.Color := clRed;
     // Axis of rotation will be center of Bitmap (Image)
-    xCenter := MyImg.Width  div 2 + x0;
-    yCenter := MyImg.Height div 2 + y0;
     for  i := 0 to StepCount do   // actually StepCount + 1 points
     begin
       theta := 360*(i/StepCount) {degrees} * (PI/180) {radians/degree};
@@ -290,20 +282,17 @@ var
     s:string ;
 begin
     cross:=  CheckCross;
-   // if cross = false then // проверка
-   // begin
-          y:=y-3;
+          y:=y-3;               //прирашение
+
+         ///xCenter := MyImg.Width  div 2 + x0;
+    // yCenter := MyImg.Height div 2 + y0;
+          yCenter := MyImg.Height div 2 + y0;
           MoveTelescope(a,b,c,x,y);     //перемещение9
-          CheckCircl(PushKey)  ;
+          checkCross;  //проверка пресечени
+          CheckCircl(PushKey)  ;      //проверка
+          CheckRotate_A;
           s:=FloatToStr(b) + ':'+FloatToStr(y);
           Aligment.Memo1.Lines.Add(s);
- {   end
-    else
-    begin
-         cross:=false;
-        // y:=y+3;
-    end;
-  }
 
      GdPaintObject;
      PaintTelescope;
@@ -315,21 +304,13 @@ var
     s: string;
 begin
     cross:=  CheckCross;
-    { if cross = false then // проверка
-     begin}
+
           y:=y+3;
           MoveTelescope(a,b,c,x,y);     //перемещение
           CheckCircl(PushKey);
+          CheckRotate_A;
           s:=FloatToStr(b) + ':'+FloatToStr(y);
           Aligment.Memo1.Lines.Add(s);
-  {  end
-    else
-    begin
-        cross:=false;
-        // y:=y-3;
-
-    end; }
-
 
    GdPaintObject;
    PaintTelescope;
@@ -344,6 +325,7 @@ begin
      x:=x-3;
           MoveTelescope(a,b,c,x,y);     //перемещение
           CheckCircl(PushKey);
+          CheckRotate_B;
           s:=FloatToStr(b) + ':'+FloatToStr(y);
           Aligment.Memo1.Lines.Add(s);
    GdPaintObject;
@@ -354,13 +336,14 @@ var
     cross: bool ;
     s:string;
 begin
-    x:=x+3;
+          x:=x+3;
           MoveTelescope(a,b,c,x,y);     //перемещение
           CheckCircl(PushKey);
+          CheckRotate_B;
           s:=FloatToStr(b) + ':'+FloatToStr(y);
           Aligment.Memo1.Lines.Add(s);
-   GdPaintObject;
-   PaintTelescope;
+          GdPaintObject;
+          PaintTelescope;
 
 end;
 procedure TAligment.ListView1KeyDown(Sender: TObject; var Key: Word;
