@@ -245,11 +245,16 @@ begin
      a:=50;
      b:=50;
      c:=0;
+     yCenter:=Aligment.MyImg.Height  div 2;
+     xCenter:=Aligment.MyImg.Width  div 2;
+
 end;
 procedure TAligment.FormCreate(Sender: TObject);
 begin
       Init;
      baseCenter:=MyImg.Width/2;
+
+
    //  GdPaintObject;
      MoveTelescope(a,b,c,0,0);
      GdPaintObject;
@@ -282,10 +287,9 @@ var
     s:string ;
 begin
     cross:=  CheckCross;
-          y:=y-3;               //прирашение
-
-         ///xCenter := MyImg.Width  div 2 + x0;
-    // yCenter := MyImg.Height div 2 + y0;
+          yCenter := yCenter -3  //прирашение
+          //xCenter := MyImg.Width  div 2 + x0;
+          // yCenter := MyImg.Height div 2 + y0;
           yCenter := MyImg.Height div 2 + y0;
           MoveTelescope(a,b,c,x,y);     //перемещение9
           checkCross;  //проверка пресечени
