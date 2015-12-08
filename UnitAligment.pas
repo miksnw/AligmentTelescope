@@ -182,22 +182,52 @@ var
     checkRotate: bool;
 begin
      checkRotate:=false;
-     if a>b then
-     checkRotate:=true;
-     result := checkRotate;
+
+     if  yCenter > baseCenter then
+     begin
+          if xCenter > baseCenter then
+          begin
+              if a>b then
+              c:=c+1;
+          end
+          else
+          begin
+              if a>b then
+             // c:=c+1;
+          end;
+     end
+     else
+     begin
+          if xCenter < baseCenter then
+          begin
+              if a>b then
+              c:=c+1;
+          end
+          else
+          begin
+              if a>b then
+              //c:=c+1;
+          end;
+
+     end;
+
+
+
 end;
 
-function CheckRotate_B : bool ;
+procedure CheckRotate_B ;
 var
     checkRotate: bool;
 begin
      checkRotate:=false;
-     if a+10<b  then
+
+
+   {  if a<b  then
      begin
        c:=c+1;
        checkRotate:=true;
      end;
-     result := checkRotate;
+        }
 end;
 
 procedure TAligment.MoveTelescope(A,B,C,x0,y0:Double);
@@ -287,10 +317,10 @@ var
     s:string ;
 begin
     cross:=  CheckCross;
-          yCenter := yCenter -3  //прирашение
+          yCenter := yCenter -3 ; //прирашение
           //xCenter := MyImg.Width  div 2 + x0;
           // yCenter := MyImg.Height div 2 + y0;
-          yCenter := MyImg.Height div 2 + y0;
+      //    yCenter := MyImg.Height div 2 + y0;
           MoveTelescope(a,b,c,x,y);     //перемещение9
           checkCross;  //проверка пресечени
           CheckCircl(PushKey)  ;      //проверка
@@ -309,7 +339,7 @@ var
 begin
     cross:=  CheckCross;
 
-          y:=y+3;
+          yCenter := yCenter +3 ; //прирашение
           MoveTelescope(a,b,c,x,y);     //перемещение
           CheckCircl(PushKey);
           CheckRotate_A;
@@ -326,7 +356,7 @@ var
     cross: bool;
     s:string;
 begin
-     x:=x-3;
+     xCenter:=xCenter-3;
           MoveTelescope(a,b,c,x,y);     //перемещение
           CheckCircl(PushKey);
           CheckRotate_B;
@@ -340,10 +370,10 @@ var
     cross: bool ;
     s:string;
 begin
-          x:=x+3;
+          xCenter:=xCenter+3;
           MoveTelescope(a,b,c,x,y);     //перемещение
           CheckCircl(PushKey);
-          CheckRotate_B;
+          CheckRotate_A;
           s:=FloatToStr(b) + ':'+FloatToStr(y);
           Aligment.Memo1.Lines.Add(s);
           GdPaintObject;
