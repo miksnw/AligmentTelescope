@@ -25,7 +25,7 @@ type
     Shape1: TShape;
     procedure FormCreate(Sender: TObject);
     procedure GdPaintObject  ;
-    procedure MoveTelescope(A,B,C,x0,y0:Double);
+    procedure MovePoints(A,B,C,x0,y0:Double);
     procedure ListView1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure PaintTelescope;
@@ -33,6 +33,8 @@ type
     procedure PushDown(PushKey:Word);
     procedure PushLeft(PushKey:Word);
     procedure PushRight(PushKey:Word);
+   // procedure NormalCheck;
+
 
   private
     { Private declarations }
@@ -53,19 +55,6 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TAligment.GdPaintObject;
-var
-     lRadius: Integer;
-begin
-
-     MyImg.Canvas.Brush.Color := clBtnFace; //Цвет заливки окружности
-     MyImg.Canvas.Pen.Color := clBtnFace; //Цвет самой окружности (точнее границ)
-     MyImg.Canvas.Rectangle(0, 0, MyImg.Width, MyImg.Height); // р
-  //   MyImg.Canvas.Brush.Color := clSilver; //Цвет заливки окружности
-     MyImg.Canvas.Pen.Color := clBlack; //Цвет самой окружности (точнее границ)
-     MyImg.Canvas.Ellipse(0, 0, MyImg.Width, MyImg.Height); // р
-end;
 
 function CheckCross: bool;
 var
@@ -177,7 +166,7 @@ begin
      result:=check;
 end;
 
-function CheckRotate_A : bool ;
+function CheckRotate_A(PKey:Word) : bool ;
 var
     checkRotate: bool;
 begin
@@ -188,12 +177,15 @@ begin
           if xCenter > baseCenter then
           begin
               if a>b then
+              if PKey=VK_Left  then
+              c:=c-1;
+              if PKey=VK_Right  then
               c:=c+1;
           end
           else
           begin
               if a>b then
-             // c:=c+1;
+          //    c:=c+1;
           end;
      end
      else
@@ -201,18 +193,20 @@ begin
           if xCenter < baseCenter then
           begin
               if a>b then
+              begin
+              if PKey=VK_Left  then
+              c:=c-1;
+              if PKey=VK_Right  then
               c:=c+1;
+              end;
+
           end
           else
           begin
               if a>b then
-              //c:=c+1;
+              c:=c+1;
           end;
-
      end;
-
-
-
 end;
 
 procedure CheckRotate_B ;
@@ -230,7 +224,31 @@ begin
         }
 end;
 
-procedure TAligment.MoveTelescope(A,B,C,x0,y0:Double);
+procedure CheckNormal(Key:word);
+begin
+    if (xCenter =baseCenter) or  (yCenter =baseCenter)
+    then CheckCircl(Key)
+    else
+        CheckRotate_a(Key);
+end;
+
+procedure TAligment.GdPaintObject;
+var
+     lRadius: Integer;
+begin
+
+     MyImg.Canvas.Brush.Color := clBtnFace; //Цвет заливки окружности
+     MyImg.Canvas.Pen.Color := clBtnFace; //Цвет самой окружности (точнее границ)
+     MyImg.Canvas.Rectangle(0, 0, MyImg.Width, MyImg.Height); // р
+  //   MyImg.Canvas.Brush.Color := clSilver; //Цвет заливки окружности
+     MyImg.Canvas.Pen.Color := clBlack; //Цвет самой окружности (точнее границ)
+     MyImg.Canvas.Ellipse(0, 0, MyImg.Width, MyImg.Height); // р
+end;
+
+
+
+
+procedure TAligment.MovePoints(A,B,C,x0,y0:Double);
 var
     Bitmap       :  TBitmap;
     i            :  INTEGER;
@@ -281,12 +299,10 @@ begin
 end;
 procedure TAligment.FormCreate(Sender: TObject);
 begin
-      Init;
+     Init;
      baseCenter:=MyImg.Width/2;
-
-
-   //  GdPaintObject;
-     MoveTelescope(a,b,c,0,0);
+   // GdPaintObject;
+     MovePoints(a,b,c,0,0);
      GdPaintObject;
      PaintTelescope;
 end;
@@ -318,13 +334,12 @@ var
 begin
     cross:=  CheckCross;
           yCenter := yCenter -3 ; //прирашение
-          //xCenter := MyImg.Width  div 2 + x0;
-          // yCenter := MyImg.Height div 2 + y0;
-      //    yCenter := MyImg.Height div 2 + y0;
-          MoveTelescope(a,b,c,x,y);     //перемещение9
+          MovePoints(a,b,c,x,y);     //перемещение9
           checkCross;  //проверка пресечени
-          CheckCircl(PushKey)  ;      //проверка
-          CheckRotate_A;
+
+          CheckNormal(PushKey);
+        //  CheckCircl(PushKey)  ;      //проверка
+        //  CheckRotate_A;
           s:=FloatToStr(b) + ':'+FloatToStr(y);
           Aligment.Memo1.Lines.Add(s);
 
@@ -340,9 +355,10 @@ begin
     cross:=  CheckCross;
 
           yCenter := yCenter +3 ; //прирашение
-          MoveTelescope(a,b,c,x,y);     //перемещение
-          CheckCircl(PushKey);
-          CheckRotate_A;
+          MovePoints(a,b,c,x,y);     //перемещение
+          CheckNormal(PushKey);
+          //CheckCircl(PushKey);
+       //   CheckRotate_A;
           s:=FloatToStr(b) + ':'+FloatToStr(y);
           Aligment.Memo1.Lines.Add(s);
 
@@ -357,9 +373,9 @@ var
     s:string;
 begin
      xCenter:=xCenter-3;
-          MoveTelescope(a,b,c,x,y);     //перемещение
-          CheckCircl(PushKey);
-          CheckRotate_B;
+          MovePoints(a,b,c,x,y);     //перемещение
+          CheckNormal(PushKey);
+          //CheckRotate_B;
           s:=FloatToStr(b) + ':'+FloatToStr(y);
           Aligment.Memo1.Lines.Add(s);
    GdPaintObject;
@@ -371,9 +387,9 @@ var
     s:string;
 begin
           xCenter:=xCenter+3;
-          MoveTelescope(a,b,c,x,y);     //перемещение
-          CheckCircl(PushKey);
-          CheckRotate_A;
+          MovePoints(a,b,c,x,y);     //перемещение
+          CheckNormal(PushKey);
+
           s:=FloatToStr(b) + ':'+FloatToStr(y);
           Aligment.Memo1.Lines.Add(s);
           GdPaintObject;
@@ -404,13 +420,13 @@ begin
                begin
                     GdPaintObject;
                     c:=c-1;
-                    MoveTelescope(a,b,c,x,y);
+                   // MoveTelescope(a,b,c,x,y);
                end;
                VK_NumPad6:
                begin
                     GdPaintObject;
                     c:=c+1;
-                    MoveTelescope(a,b,c,x,y);
+                   // MoveTelescope(a,b,c,x,y);
                end;
      end;
 end;
