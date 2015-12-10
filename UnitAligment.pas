@@ -177,34 +177,54 @@ begin
           if xCenter > baseCenter then
           begin
               if a>b then
-              if PKey=VK_Left  then
-              c:=c-1;
-              if PKey=VK_Right  then
-              c:=c+1;
+              begin
+                   if PKey=VK_Left  then
+                    c:=c+1;
+                    if PKey=VK_Right  then
+                    c:=c-1;
+              end
+              else
+
+                 begin
+                   if PKey=VK_Up  then
+                    c:=c-1;
+                    if PKey=VK_Down  then
+                    c:=c+1;
+              end
           end
           else
           begin
               if a>b then
-          //    c:=c+1;
+              begin
+                   if PKey=VK_Left  then
+                    c:=c+1;
+                    if PKey=VK_Right  then
+                    c:=c-1;
+              end;
+
           end;
      end
      else
      begin
           if xCenter < baseCenter then
           begin
-              if a>b then
-              begin
-              if PKey=VK_Left  then
-              c:=c-1;
-              if PKey=VK_Right  then
-              c:=c+1;
-              end;
-
+               if a>b then
+               begin
+                    if PKey=VK_Left  then
+                     c:=c-1;
+                     if PKey=VK_Right  then
+                     c:=c+1;
+               end;
           end
           else
           begin
               if a>b then
-              c:=c+1;
+               begin
+                    if PKey=VK_Left  then
+                     c:=c-1;
+                     if PKey=VK_Right  then
+                     c:=c+1;
+               end;
           end;
      end;
 end;
