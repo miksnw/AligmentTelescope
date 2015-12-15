@@ -60,8 +60,8 @@ object Aligment: TAligment
     object MyImg: TImage
       Left = 23
       Top = 106
-      Width = 292
-      Height = 292
+      Width = 300
+      Height = 300
     end
     object Image1: TImage
       Left = 120
@@ -368,14 +368,14 @@ object Aligment: TAligment
     end
     object Light: TShape
       Left = 24
-      Top = 82
+      Top = 106
       Width = 56
       Height = 56
       Brush.Color = clLime
       Shape = stEllipse
     end
     object Shape1: TShape
-      Left = 165
+      Left = 168
       Top = 247
       Width = 9
       Height = 9

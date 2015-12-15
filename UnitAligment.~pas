@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, sSkinManager, sSkinProvider,
-  sPanel, sMemo;
+  sPanel, sMemo,Math;
 
 type
   TAligment = class(TForm)
@@ -49,7 +49,8 @@ var
      a,b,c,x,y: Double;
      lx,ly : array [0..100] of integer;
      StepCount    :  integer;
-     yCenter      :  Double;
+     x0,y0:integer ;
+     yCenter      :  integer;
     xCenter      :  Double;
     baseCenter:double ;
 implementation
@@ -82,21 +83,13 @@ n:=0;
 end;
 
 function CheckCircl(PushKey:Word) : bool ;
+const
+    val=1;
 var
     check:bool;
     s:string;
 begin
      check:= false;
-
-  { if CheckRotate_B=false  then
-          begin
-          end
-          else
-          begin
-               c:=c-1;
-               y:=y-3;
-          end;
-     }
      if PushKey= 38 //up
      then
      begin
@@ -105,11 +98,11 @@ begin
           if yCenter<baseCenter
           then
           begin
-               b:=b-1;
+               b:=b-cos(val);
           end
           else
           begin
-               b:=b+1;
+               b:=b+cos(val);
           end;
          end;
      end;
@@ -120,14 +113,14 @@ begin
           if yCenter > baseCenter
           then
           begin
-              b:=b-1;
+              b:=b-cos(val);
             //  s:=FloatToStr(b) + ':' +FloatToStr(y);
             //  Aligment.Memo1.Lines.Add(s);
        //       check:=true;
           end
           else
           begin
-               b:=b+1;
+               b:=b+cos(val);
             //   s:=FloatToStr(b) + ':' +FloatToStr(y);
             //   Aligment.Memo1.Lines.Add(s);
           end;
@@ -138,14 +131,14 @@ begin
           if xCenter < baseCenter
           then
           begin
-              a:=a-1;
+              a:=a-cos(val);
             //  s:=FloatToStr(a) + ':' +FloatToStr(x);
             //  Aligment.Memo1.Lines.Add(s);
             //  check:=true;
           end
           else
           begin
-                a:=a+1;
+                a:=a+cos(val);
              //   s:=FloatToStr(a) + ':' +FloatToStr(x);
            //     Aligment.Memo1.Lines.Add(s);
           end;
@@ -156,68 +149,128 @@ begin
           if xCenter > baseCenter
           then
           begin
-              a:=a-1;
+              a:=a-cos(val);
           end
           else
           begin
-               a:=a+1;
+              a:=a+cos(val);
           end;
      end;
      result:=check;
 end;
 
 function CheckRotate_A(PKey:Word) : bool ;
+const
+   val=1;
 var
     checkRotate: bool;
 begin
-     checkRotate:=false;
+      checkRotate:=false;
 
      if  yCenter > baseCenter then
      begin
+        // showMessage('1');
           if xCenter > baseCenter then
           begin
-              if a>b then
-              begin
-                   if PKey=VK_Left  then
-                    c:=c+1;
-                    if PKey=VK_Right  then
-                    c:=c-1;
-              end;
-
+               if PKey=VK_Left  then
+               c:=c+cos(1);;
+               if PKey=VK_Right  then
+               c:=c-cos(1);
+               if Pkey= VK_Up then
+               c:=c-cos(1);
+               if Pkey=VK_Down then
+               c:=c+cos(1);
           end
           else
           begin
-              if a>b then
-              begin
-                   if PKey=VK_Left  then
-                    c:=c+1;
-                    if PKey=VK_Right  then
-                    c:=c-1;
-              end;
-
+               if PKey=VK_Left  then
+               c:=c+cos(1);
+               if PKey=VK_Right  then
+               c:=c-cos(1);
+               if Pkey= VK_Up then
+               c:=c+cos(1);
+               if Pkey= VK_Down then
+               c:=c-cos(1);
           end;
      end
      else
      begin
           if xCenter < baseCenter then
           begin
-               if a>b then
-               begin
-                    if PKey=VK_Left  then
-                     c:=c-1;
-                     if PKey=VK_Right  then
-                     c:=c+1;
-               end;
+               if PKey=VK_Left  then
+               c:=c-cos(1);
+               if PKey=VK_Right  then
+               c:=c+cos(1);
+               if Pkey= VK_Up then
+               c:=c+cos(1);
+               if Pkey= VK_Down then
+               c:=c-cos(1);
           end
           else
           begin
-              if a>b then
-               begin
-                    if PKey=VK_Left  then
-                     c:=c-1;
-                     if PKey=VK_Right  then
-                     c:=c+1;
-               end;
+               if PKey=VK_Left  then
+               c:=c-cos(1);
+               if PKey=VK_Right  then
+               c:=c+cos(1);
+
+               if Pkey= VK_Up then
+               c:=c-cos(1);
+               if Pkey= VK_Down then
+               c:=c+cos(1);
+          end;
+     end; checkRotate:=false;
+
+     if  yCenter > baseCenter then
+     begin
+        // showMessage('1');
+          if xCenter > baseCenter then
+          begin
+               if PKey=VK_Left  then
+               c:=c+10;
+               if PKey=VK_Right  then
+               c:=c-cos(1);
+               if Pkey= VK_Up then
+               c:=c-cos(1);
+               if Pkey= VK_Down then
+               c:=c+cos(1);
+          end
+          else
+          begin
+               if PKey=VK_Left  then
+               c:=c+cos(1);
+               if PKey=VK_Right  then
+               c:=c-cos(1);
+               if Pkey= VK_Up then
+               c:=c+cos(1);
+               if Pkey= VK_Down then
+               c:=c-cos(1);
+          end;
+     end
+     else
+     begin
+          if xCenter < baseCenter then
+          begin
+               if PKey=VK_Left  then
+               c:=c-cos(1);
+               if PKey=VK_Right  then
+               c:=c+cos(1);
+               if Pkey= VK_Up then
+               c:=c+cos(1);
+               if Pkey= VK_Down then
+               c:=c-cos(1);
+          end
+          else
+          begin
+               if PKey=VK_Left  then
+               c:=c-cos(1);
+               if PKey=VK_Right  then
+               c:=c+cos(1);
+
+                 if Pkey= VK_Up then
+               c:=c-cos(1);
+               if Pkey= VK_Down then
+               c:=c+cos(1);
+
           end;
      end;
 end;
@@ -237,13 +290,31 @@ begin
         }
 end;
 
+procedure RotFix(lenx,leny:integer);
+begin
+     xcenter:=sqrt(power(lenx,2)-power(leny,2));
+end;
+
 procedure CheckNormal(Key:word);
+var
+   er:integer;
+   deltax,deltay:integer;
 begin
     if (xCenter =baseCenter) or  (yCenter =baseCenter)
-    then CheckCircl(Key)
+    then
+    begin
+      er:=Round(sqrt(power(xcenter,2)+power(ycenter,2)));
+      deltax:= abs(x0-er);
+      deltay:= abs(y0-ycenter);
+      RotFix(deltax,deltay);
+    ///  SHowMessage(inttostr(deltax));
+     CheckCircl(Key)
+    end
     else
         CheckRotate_a(Key);
 end;
+
+
 
 procedure TAligment.GdPaintObject;
 var
@@ -306,9 +377,10 @@ begin
      a:=50;
      b:=50;
      c:=0;
-     yCenter:=Aligment.MyImg.Height  div 2;
-     xCenter:=Aligment.MyImg.Width  div 2;
-
+     x0:=Aligment.MyImg.Width  div 2;
+     xCenter:=x0;
+     y0:=Aligment.MyImg.Height  div 2;
+     yCenter:=y0;
 end;
 procedure TAligment.FormCreate(Sender: TObject);
 begin
@@ -346,18 +418,16 @@ var
     s:string ;
 begin
     cross:=  CheckCross;
-          yCenter := yCenter -3 ; //прирашение
-          MovePoints(a,b,c,x,y);     //перемещение9
-          checkCross;  //проверка пресечени
-
-          CheckNormal(PushKey);
-        //  CheckCircl(PushKey)  ;      //проверка
-        //  CheckRotate_A;
-          s:=FloatToStr(b) + ':'+FloatToStr(y);
-          Aligment.Memo1.Lines.Add(s);
-
-     GdPaintObject;
-     PaintTelescope;
+    yCenter := yCenter -3 ; //прирашение
+    MovePoints(a,b,c,x,y);     //перемещение9
+    checkCross;  //проверка пресечени
+    CheckNormal(PushKey);
+    //  CheckCircl(PushKey)  ;      //проверка
+    //  CheckRotate_A;
+    s:=FloatToStr(b) + ':'+FloatToStr(y);
+    Aligment.Memo1.Lines.Add(s);
+    GdPaintObject;
+    PaintTelescope;
 end;
 
 procedure TAligment.PushDown(PushKey:Word);
